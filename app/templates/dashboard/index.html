@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_table %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">        
+        <div class="col-8">
+          {{ render_table(id='transactionTable', names= transactions_columns, rows=transactions_rows) }}
+        </div>
+        <div class="col-4">
+          {{ render_table(id='categoriesTable', names= categories_columns,  rows=categories_rows) }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
