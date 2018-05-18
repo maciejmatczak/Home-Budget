@@ -1,9 +1,6 @@
 import os
 
 from flask import Flask
-from flask_socketio import SocketIO
-
-socketio = SocketIO()
 
 
 def create_app(test_config=None):
@@ -42,7 +39,6 @@ def create_app(test_config=None):
     app.add_url_rule('/', endpoint='index')
 
     from . import api
-    app.register_blueprint(api.bp)
+    app.register_blueprint(api.bp, url_prefix='/api')
 
-    socketio.init_app(app)
     return app
