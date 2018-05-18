@@ -1,11 +1,17 @@
 import click
 from flask.cli import with_appcontext
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, event
+from sqlalchemy.engine import Engine
 
 
 db = SQLAlchemy()
 
-# app.cli.add_command(init_db_command)
+
+@event.listens_for(Engine, "connect")
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
 
 
 class Category(db.Model):
