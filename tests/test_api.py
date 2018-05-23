@@ -30,7 +30,10 @@ def test_getting_resource_id_fields(client, endpoint, fields):
 
 @pytest.mark.parametrize(
     'endpoint', [
-        ('categories')
+        ('categories'),
+        ('subcategories'),
+        ('transactions'),
+        ('budget-rules')
     ]
 )
 def test_getting_resource_wrong_id(client, endpoint):
