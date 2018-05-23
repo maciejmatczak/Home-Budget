@@ -33,10 +33,10 @@ def create_app(test_config=None):
     app.cli.add_command(init_db_command)
     app.cli.add_command(mock_db_command)
 
-    from . import dashboard
-    app.register_blueprint(dashboard.bp)
+    # from . import dashboard
+    # app.register_blueprint(dashboard.bp)
 
-    app.add_url_rule('/', endpoint='index')
+    # app.add_url_rule('/', endpoint='index')
 
     from . import api
     app.register_blueprint(api.bp, url_prefix='/api')
