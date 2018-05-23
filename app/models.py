@@ -19,8 +19,21 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    date = db.Column(db.Date, nullable=False)
     estimate = db.Column(db.Float, nullable=False)
+
+
+# class SubCategory(db.Model):
+#     __tablename__ = 'subcategories'
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String, nullable=False)
+#     date = db.Column(db.Date, nullable=False)
+#     estimate = db.Column(db.Float, nullable=False)
+#     category_id = db.Column(
+#         db.Integer,
+#         db.ForeignKey('categories.id', onupdate='CASCADE', ondelete='SET NULL')
+#     )
+#     category = db.relationship('Category', backref='subcategories')
 
 
 class BudgetRule(db.Model):
@@ -64,7 +77,6 @@ def mockup(db):
     for name in ['?', 'Car', 'Grocery']:
         category = Category(
             name=name,
-            date=date(2018, 5, 1),
             estimate=-12.34
         )
 
