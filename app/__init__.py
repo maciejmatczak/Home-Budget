@@ -28,7 +28,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from app.models import db, init_db_command, mock_db_command
+    from models import db, init_db_command, mock_db_command
     db.init_app(app)
     app.cli.add_command(init_db_command)
     app.cli.add_command(mock_db_command)
@@ -38,7 +38,7 @@ def create_app(test_config=None):
 
     # app.add_url_rule('/', endpoint='index')
 
-    from . import api
+    import api
     app.register_blueprint(api.bp, url_prefix='/api')
 
     return app
