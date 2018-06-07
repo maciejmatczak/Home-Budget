@@ -6,7 +6,7 @@ from app.models import Category, Transaction
 
 @pytest.mark.parametrize(
     'endpoint, length', [
-        ('categories', 3)
+        ('categories', 4)
     ]
 )
 def test_getting_resources(client, endpoint, length):
@@ -31,9 +31,9 @@ def test_getting_resource_id_fields(client, endpoint, fields):
 @pytest.mark.parametrize(
     'endpoint', [
         ('categories'),
-        ('subcategories'),
+        ('parent-categories'),
         ('transactions'),
-        ('budget-rules')
+        ('budgets')
     ]
 )
 def test_getting_resource_wrong_id(client, endpoint):
@@ -48,11 +48,6 @@ def test_posting_category(app, client):
     rv = client.post('/api/categories', json=json_dict)
 
     assert rv.status_code == 200
-
-    with app.app_context():
-        category = Category.query.filter_by(name=json_dict['name']).first()
-
-    assert category.date == date(2018, 5, 1)
 
 
 def test_putting_category(app, client):

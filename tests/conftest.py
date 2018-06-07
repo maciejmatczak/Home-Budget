@@ -2,7 +2,7 @@ import pytest
 from datetime import date, timedelta
 
 from app import create_app
-from app.models import db, Category, Transaction
+from app.models import db, Category, ParentCategory, Budget, Transaction
 
 
 @pytest.fixture
@@ -30,27 +30,44 @@ def client(app):
 
 
 def create_test_data(db):
+    bills = ParentCategory(
+        name='Bills'
+    )
 
-    for name in ['?', 'Car', 'Grocery']:
+    db.session.add(bills)
+
+    categories = {
+        'Car': None,
+        'Grocery': None,
+        'TV Multimedia Internet': bills,
+        'Flat rent': bills,
+    }
+    for name, parent in categories.items():
         category = Category(
             name=name,
-            date=date(2018, 5, 1),
-            estimate=-12.34
+            parent=parent
         )
 
         db.session.add(category)
-
-    db.session.commit()
 
     categories = Category.query.all()
 
     for i in range(30):
         transaction = Transaction(
             account_date=date(2018, 5, 1) + timedelta(days=i),
-            category=categories[i % 3],
-            amount=-12.34
+            category=categories[i % len(categories)],
+            amount=-10
         )
 
         db.session.add(transaction)
+
+    for category in categories:
+        budget = Budget(
+            category=category,
+            date=date(2018, 5, 1),
+            estimate=-100
+        )
+
+        db.session.add(budget)
 
     db.session.commit()
