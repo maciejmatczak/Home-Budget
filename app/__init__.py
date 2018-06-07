@@ -28,17 +28,20 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from models import db, init_db_command, mock_db_command
+    from app.models import db, init_db_command, mock_db_command
     db.init_app(app)
     app.cli.add_command(init_db_command)
     app.cli.add_command(mock_db_command)
+
+    from app.budgeter import load_dumps_command
+    app.cli.add_command(load_dumps_command)
 
     # from . import dashboard
     # app.register_blueprint(dashboard.bp)
 
     # app.add_url_rule('/', endpoint='index')
 
-    import api
+    from . import api
     app.register_blueprint(api.bp, url_prefix='/api')
 
     return app
